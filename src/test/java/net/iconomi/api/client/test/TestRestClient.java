@@ -4,12 +4,16 @@ import net.iconomi.api.client.IconomiApiBuilder;
 import net.iconomi.api.client.IconomiRestApi;
 import net.iconomi.api.client.model.Balance;
 import net.iconomi.api.client.model.Daa;
-import org.junit.jupiter.api.Assertions;
+import net.iconomi.api.client.model.DaaChart;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @Disabled
 public class TestRestClient {
@@ -22,8 +26,16 @@ public class TestRestClient {
         for (Daa ticker : api.getDaaList()) {
             Daa daa = api.getDaa(ticker.getTicker());
             System.out.println(String.format("for ticker: '%s' got daa: %s", ticker.getTicker(), daa));
-            BigDecimal price = api.getDaaPrice(ticker.getTicker());
-            System.out.println(String.format("for ticker: '%s' got price: %s", ticker.getTicker(), price));
+            assertNotNull(api.getDaaStructure(daa.getTicker()));
+            try {
+                BigDecimal price = api.getDaaPrice(ticker.getTicker());
+                assertNotNull(price);
+                System.out.println(String.format("for ticker: '%s' got price: %s", ticker.getTicker(), price));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            DaaChart chart = api.getDaaPriceHistry(daa.getTicker(), Instant.now().minus(10, ChronoUnit.DAYS).toEpochMilli(), Instant.now().minus(10, ChronoUnit.DAYS).toEpochMilli());
+            assertNotNull(chart, "history cannot be null");
         }
     }
 
@@ -31,7 +43,7 @@ public class TestRestClient {
     @Disabled
     public void testGetUserBalance() throws IOException {
         Balance b = api.getUserBalance();
-        Assertions.assertNotNull(b);
+        assertNotNull(b);
     }
 
 

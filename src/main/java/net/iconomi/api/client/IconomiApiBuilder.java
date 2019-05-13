@@ -3,7 +3,7 @@ package net.iconomi.api.client;
 public final class IconomiApiBuilder {
     String apiKey;
     String apiSecret;
-    String baseApiUrl = "https://api.iconomi.net";
+    String baseApiUrl = "https://api.iconomi.com";
 
     public IconomiRestApi buildRestApi() {
         return new IconomiRestApiImpl(this);

@@ -9,6 +9,7 @@ import net.iconomi.api.client.model.DaaStructure;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface IconomiService {
 
@@ -25,12 +26,12 @@ public interface IconomiService {
     Call<DaaPrice> getDaaPrice(@Path("daa") String ticker);
 
 
-    @GET("/v1/daa/{ticker}/pricehistory/{from}/{to}")
-    Call<DaaChart> getDaaPriceHistory(@Path("ticker") String ticker, @Path("from") Long from, @Path("to") Long to);
+    @GET("/v1/daa/{ticker}/pricehistory")
+    Call<DaaChart> getDaaPriceHistory(@Path("ticker") String ticker, @Query("from") Long from, @Query("to") Long to);
 
 
-    @GET("/v1/user/balance/{currency}")
-    Call<Balance> getUserBalance(@Path("currency") String currency);
+    @GET("/v1/user/balance")
+    Call<Balance> getUserBalance(@Query("currency") String currency);
 
 
 }

@@ -12,6 +12,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okio.Buffer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import retrofit2.Retrofit;
@@ -105,16 +106,27 @@ class IconomiRestApiImpl implements IconomiRestApi {
 
     }
 
-    private Headers getSignatureHeaders(Request request) {
+    private Headers getSignatureHeaders(Request request)throws IOException {
         long timestamp = Instant.now().toEpochMilli();
+
+        String body = "";
+        if (request.body() != null) {
+            final Request copy = request.newBuilder().build();
+            final Buffer buffer = new Buffer();
+            copy.body().writeTo(buffer);
+            body = buffer.readUtf8();
+        }
+
+
         return Headers.of(
                 "ICN-API-KEY", apiKey,
-                "ICN-SIGN", generateServerDigest("GET", request.url().encodedPath(), timestamp),
+                "ICN-SIGN", generateServerDigest("GET", request.url().encodedPath(), timestamp, body),
                 "ICN-TIMESTAMP", String.valueOf(timestamp));
     }
 
-    private String generateServerDigest(String method, String uri, long timestamp) {
-        String checkDigestString = method + uri + timestamp;//  "GET+/v1/daa-list+123123123"; //timestamp in epoch milliseconds
+    private String generateServerDigest(String method, String uri, long timestamp, String body) {
+        //return timestamp + request.getMethodValue() + uri + body;
+        String checkDigestString = timestamp + method + uri + body;//  "GET+/v1/daa-list+123123123"; //timestamp in epoch milliseconds
 
         // hash server composited digest with algorithm and apikeys secret
         SecretKeySpec signingKey = new SecretKeySpec(apiSecret.getBytes(), "HmacSHA512");

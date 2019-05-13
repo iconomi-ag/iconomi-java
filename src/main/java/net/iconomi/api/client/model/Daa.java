@@ -11,6 +11,12 @@ public class Daa {
     private String name;
     private String manager;
     private String type;
+    private String managementType;
+    private String managementFee;
+    private String entryFee;
+    private String exitFee;
+    private String aum;
+    private String currency;
 
     public String getTicker() {
         return ticker;
@@ -18,6 +24,14 @@ public class Daa {
 
     public void setTicker(String ticker) {
         this.ticker = ticker;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     public String getName() {
@@ -43,4 +57,45 @@ public class Daa {
     public void setType(String type) {
         this.type = type;
     }
+
+    public String getManagementType() {
+        return managementType;
+    }
+
+    public void setManagementType(String managementType) {
+        this.managementType = managementType;
+    }
+
+    public String getManagementFee() {
+        return managementFee;
+    }
+
+    public void setManagementFee(String managementFee) {
+        this.managementFee = managementFee;
+    }
+
+    public String getEntryFee() {
+        return entryFee;
+    }
+
+    public void setEntryFee(String entryFee) {
+        this.entryFee = entryFee;
+    }
+
+    public String getExitFee() {
+        return exitFee;
+    }
+
+    public void setExitFee(String exitFee) {
+        this.exitFee = exitFee;
+    }
+
+    public String getAum() {
+        return aum;
+    }
+
+    public void setAum(String aum) {
+        this.aum = aum;
+    }
+
 }
