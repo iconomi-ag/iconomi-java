@@ -1,5 +1,7 @@
 package net.iconomi.api.client.model;
 
+import java.math.BigDecimal;
+
 /**
  * Copyright (c) 2019 ICONOMI Inc. All rights reserved.
  *
@@ -9,7 +11,7 @@ public class DaaPrice {
 
     private String ticker;
     private String currency;
-    private String price;
+    private BigDecimal price;
 
     public String getTicker() {
         return ticker;
@@ -27,11 +29,11 @@ public class DaaPrice {
         this.currency = currency;
     }
 
-    public String getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 }

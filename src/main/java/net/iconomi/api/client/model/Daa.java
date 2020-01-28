@@ -1,21 +1,23 @@
 package net.iconomi.api.client.model;
 
+import java.math.BigDecimal;
+
 /**
  * Copyright (c) 2019 ICONOMI Inc. All rights reserved.
  *
  * @author Tomaž Cerar
  */
 public class Daa {
-
     private String ticker;
     private String name;
     private String manager;
     private String type;
     private String managementType;
-    private String managementFee;
-    private String entryFee;
-    private String exitFee;
-    private String aum;
+    private BigDecimal managementFee;
+    private BigDecimal performanceFee;
+    private BigDecimal entryFee;
+    private BigDecimal exitFee;
+    private BigDecimal aum;
     private String currency;
 
     public String getTicker() {
@@ -24,14 +26,6 @@ public class Daa {
 
     public void setTicker(String ticker) {
         this.ticker = ticker;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
     }
 
     public String getName() {
@@ -66,36 +60,53 @@ public class Daa {
         this.managementType = managementType;
     }
 
-    public String getManagementFee() {
+    public BigDecimal getManagementFee() {
         return managementFee;
     }
 
-    public void setManagementFee(String managementFee) {
+    public void setManagementFee(BigDecimal managementFee) {
         this.managementFee = managementFee;
     }
 
-    public String getEntryFee() {
+    public BigDecimal getPerformanceFee() {
+        return performanceFee;
+    }
+
+    public void setPerformanceFee(BigDecimal performanceFee) {
+        this.performanceFee = performanceFee;
+    }
+
+    public BigDecimal getEntryFee() {
         return entryFee;
     }
 
-    public void setEntryFee(String entryFee) {
+    public void setEntryFee(BigDecimal entryFee) {
         this.entryFee = entryFee;
     }
 
-    public String getExitFee() {
+    public BigDecimal getExitFee() {
         return exitFee;
     }
 
-    public void setExitFee(String exitFee) {
+    public void setExitFee(BigDecimal exitFee) {
         this.exitFee = exitFee;
     }
 
-    public String getAum() {
+    public BigDecimal getAum() {
         return aum;
     }
 
-    public void setAum(String aum) {
+    public void setAum(BigDecimal aum) {
         this.aum = aum;
     }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
 
 }

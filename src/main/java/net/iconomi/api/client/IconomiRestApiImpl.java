@@ -83,7 +83,7 @@ class IconomiRestApiImpl implements IconomiRestApi {
     public BigDecimal getDaaPrice(String ticker) throws IOException {
         DaaPrice daaPrice = service.getDaaPrice(ticker).execute().body();
         if (daaPrice != null) {
-            return new BigDecimal(daaPrice.getPrice());
+            return daaPrice.getPrice();
         }
         return null;
     }
@@ -99,14 +99,14 @@ class IconomiRestApiImpl implements IconomiRestApi {
         } else {
             Request original = chain.request();
             Request request = chain.request().newBuilder()
-                    .headers(getSignatureHeaders(original))
-                    .build();
+                                   .headers(getSignatureHeaders(original))
+                                   .build();
             return chain.proceed(request);
         }
 
     }
 
-    private Headers getSignatureHeaders(Request request)throws IOException {
+    private Headers getSignatureHeaders(Request request) throws IOException {
         long timestamp = Instant.now().toEpochMilli();
 
         String body = "";

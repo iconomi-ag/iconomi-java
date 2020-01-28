@@ -54,4 +54,15 @@ public class StructureElement {
     public void setAssetCategory(String assetCategory) {
         this.assetCategory = assetCategory;
     }
+
+    @Override
+    public String toString() {
+        return "StructureElement{" +
+                "assetTicker='" + assetTicker + '\'' +
+                ", rebalancedWeight=" + rebalancedWeight +
+                ", assetName='" + assetName + '\'' +
+                ", targetWeight=" + targetWeight +
+                ", assetCategory='" + assetCategory + '\'' +
+                '}';
+    }
 }

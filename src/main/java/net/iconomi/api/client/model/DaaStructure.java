@@ -10,8 +10,8 @@ import java.util.List;
 public class DaaStructure {
 
     private String ticker;
-
     private List<StructureElement> values;
+    private Integer numberOfAssets;
 
     public String getTicker() {
         return ticker;
@@ -27,5 +27,13 @@ public class DaaStructure {
 
     public void setValues(List<StructureElement> values) {
         this.values = values;
+    }
+
+    public Integer getNumberOfAssets() {
+        return numberOfAssets;
+    }
+
+    public void setNumberOfAssets(Integer numberOfAssets) {
+        this.numberOfAssets = numberOfAssets;
     }
 }
