@@ -120,7 +120,7 @@ class IconomiRestApiImpl implements IconomiRestApi {
 
         return Headers.of(
                 "ICN-API-KEY", apiKey,
-                "ICN-SIGN", generateServerDigest("GET", request.url().encodedPath(), timestamp, body),
+                "ICN-SIGN", generateServerDigest(request.method(), request.url().encodedPath(), timestamp, body),
                 "ICN-TIMESTAMP", String.valueOf(timestamp));
     }
 
