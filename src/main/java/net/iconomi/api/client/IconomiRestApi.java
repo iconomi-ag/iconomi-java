@@ -1,51 +1,48 @@
 package net.iconomi.api.client;
 
-import net.iconomi.api.client.model.Balance;
-import net.iconomi.api.client.model.Daa;
-import net.iconomi.api.client.model.DaaChart;
-import net.iconomi.api.client.model.StructureElement;
+import net.iconomi.generated.ApiClient;
+import net.iconomi.generated.api.AssetApi;
+import net.iconomi.generated.api.StrategiesApi;
+import net.iconomi.generated.api.TradingApi;
+import net.iconomi.generated.api.UserApi;
+import okhttp3.OkHttpClient;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
+public class IconomiRestApi {
+    private final AssetApi assetApi;
+    private final StrategiesApi strategiesApi;
+    private final TradingApi tradingApi;
+    private final UserApi userApi;
 
-public interface IconomiRestApi {
+    public IconomiRestApi(String baseURL,
+                          String apiKey,
+                          String apiSecret) {
+        ApiClient apiClient = new ApiClient(
+                new OkHttpClient.Builder()
+                        .followRedirects(true)
+                        .followSslRedirects(false)
+                        .addInterceptor(i -> HeaderUtil.addAuthHeaders(i, apiKey, apiSecret))
+                        .build());
+        apiClient.setBasePath(baseURL);
 
-    /**
-     * @return List of daas
-     */
-    List<Daa> getDaaList() throws IOException;
+        this.assetApi = new AssetApi(apiClient);
+        this.strategiesApi = new StrategiesApi(apiClient);
+        this.tradingApi = new TradingApi(apiClient);
+        this.userApi = new UserApi(apiClient);
+    }
 
-    /**
-     * @param ticker name of digital portfolio
-     * @return {@link Daa} with information about digital portfolio
-     */
-    Daa getDaa(String ticker) throws IOException;
+    public AssetApi getAssetApi() {
+        return assetApi;
+    }
 
-    /**
-     * @param ticker name of daa
-     * @return structure of Daa
-     */
-    List<StructureElement> getDaaStructure(String ticker) throws IOException;
+    public StrategiesApi getStrategiesApi() {
+        return strategiesApi;
+    }
 
-    /**
-     * @param ticker name of daa
-     * @return price
-     */
-    BigDecimal getDaaPrice(String ticker) throws IOException;
+    public TradingApi getTradingApi() {
+        return tradingApi;
+    }
 
-
-    /**
-     * @param ticker name of daa
-     * @return price history
-     */
-    DaaChart getDaaPriceHistry(String ticker, long from, long to) throws IOException;
-
-    /**
-     * Returns balance for user that is logged in via api key
-     *
-     * @return {@link Balance} or null if user is not authorized
-     */
-    Balance getUserBalance() throws IOException;
-
+    public UserApi getUserApi() {
+        return userApi;
+    }
 }
