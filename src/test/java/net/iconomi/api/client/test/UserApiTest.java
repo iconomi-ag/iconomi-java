@@ -63,7 +63,7 @@ public class UserApiTest {
 
     @Test
     public void userChart() throws ApiException {
-        UserChart userChart = userApi.portfolioHistory("EUR", "ONE_WEEK");
+        PortfolioHistory userChart = userApi.portfolioHistory("EUR", "ONE_WEEK");
         Assertions.assertEquals("EUR", userChart.getCurrency().name());
         Assertions.assertEquals("ONE_WEEK", userChart.getPeriod().name());
     }

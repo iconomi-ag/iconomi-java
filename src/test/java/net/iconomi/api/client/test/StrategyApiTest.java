@@ -27,16 +27,8 @@ public class StrategyApiTest {
     }
 
     @Test
-    public void balance() throws ApiException {
-        StrategyBalance balance = strategiesApi.daaBalance(TestData.strategyName);
-        Assertions.assertEquals(balance.getTicker(), TestData.strategyName);
-        Assertions.assertNotNull(balance.getValues());
-        Assertions.assertFalse(balance.getValues().isEmpty());
-    }
-
-    @Test
     public void charts() throws ApiException {
-        Chart chart = strategiesApi.charts(TestData.strategyName, "EUR", null, null, "HOURLY");
+        Chart chart = strategiesApi.priceHistory(TestData.strategyName, "EUR", null, null, "HOURLY");
         Assertions.assertEquals(TestData.strategyName, chart.getTicker());
         Assertions.assertEquals(Chart.CurrencyEnum.EUR, chart.getCurrency());
         Assertions.assertEquals("HOURLY", chart.getGranulation());
@@ -73,7 +65,7 @@ public class StrategyApiTest {
 
     @Test
     public void info() throws ApiException {
-        Strategy strategy = strategiesApi.info(TestData.strategyName);
+        Strategy strategy = strategiesApi.details(TestData.strategyName);
         Assertions.assertNotNull(strategy);
     }
 
@@ -98,8 +90,33 @@ public class StrategyApiTest {
 
     @Test
     public void posts() throws ApiException {
-        Posts posts = strategiesApi.posts("BLX", 3, 0);
+        Posts posts = strategiesApi.posts(TestData.strategyName, 3, 0);
         Assertions.assertNotNull(posts);
+    }
+
+    @Test
+    public void createPost() throws ApiException {
+        SubmitPost body = new SubmitPost();
+        body.setContent("Hello, world!");
+        body.setGiphyId("Z6f7vzq3iP6Mw");
+        body.setPostToFollowerFunds(Boolean.FALSE);
+        Post post = strategiesApi.createPost(TestData.strategyName, body);
+        Assertions.assertNotNull(post);
+    }
+
+    @Test
+    public void updatePost() throws ApiException {
+        SubmitPost body = new SubmitPost();
+        body.setContent("One!!");
+        body.setGiphyId("Z6f7vzq3iP6Mw");
+        body.setPostToFollowerFunds(Boolean.FALSE);
+        Post post = strategiesApi.createPost(TestData.strategyName, body);
+        Assertions.assertNotNull(post);
+        String postId = post.getId();
+        body.setContent("Two!!");
+        post = strategiesApi.updatePost(TestData.strategyName, postId, body);
+        Assertions.assertNotNull(post);
+        Assertions.assertEquals("Two!!", post.getContent());
     }
 }
 

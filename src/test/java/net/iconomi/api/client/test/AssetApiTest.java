@@ -41,7 +41,7 @@ public class AssetApiTest {
 
     @Test
     public void assetHistory() throws ApiException {
-        Chart chart = assetApi.assetHistory("BTC", "EUR", null, null, "HOURLY");
+        Chart chart = assetApi.assetPriceHistory("BTC", "EUR", null, null, "HOURLY");
         Assertions.assertEquals("BTC", chart.getTicker());
         Assertions.assertEquals(Chart.CurrencyEnum.EUR, chart.getCurrency());
         Assertions.assertEquals("HOURLY", chart.getGranulation());
