@@ -8,9 +8,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
+import java.util.Objects;
 
 public class StrategyApiTest {
     static IconomiRestApi restApi;
@@ -95,26 +98,48 @@ public class StrategyApiTest {
     }
 
     @Test
-    public void createPost() throws ApiException {
+    public void createPost() throws ApiException, IOException {
         SubmitPost body = new SubmitPost();
         body.setContent("Hello, world!");
-        body.setGiphyId("Z6f7vzq3iP6Mw");
+        //body.setGiphyId("Z6f7vzq3iP6Mw");
         body.setPostToFollowerFunds(Boolean.FALSE);
+        body.setImage(Base64.getEncoder().encodeToString(getClass().getClassLoader().getResourceAsStream("test.png").readAllBytes()));
         Post post = strategiesApi.createPost(TestData.strategyName, body);
         Assertions.assertNotNull(post);
     }
 
     @Test
-    public void updatePost() throws ApiException {
+    public void removeImage() throws ApiException, IOException {
+        SubmitPost body = new SubmitPost();
+        body.setContent("With image!!");
+        //body.setGiphyId("Z6f7vzq3iP6Mw");
+        body.setPostToFollowerFunds(Boolean.FALSE);
+        body.setImage(Base64.getEncoder().encodeToString(getClass().getClassLoader().getResourceAsStream("test.png").readAllBytes()));
+        Post post = strategiesApi.createPost(TestData.strategyName, body);
+        Assertions.assertNotNull(post);
+        Assertions.assertTrue(post.getHasImage());
+        String postId = post.getId();
+        UpdatePost updatePost = new UpdatePost();
+        updatePost.setContent("Without image!!");
+        updatePost.setDeleteImage(Boolean.TRUE);
+        post = strategiesApi.updatePost(TestData.strategyName, postId, updatePost);
+        Assertions.assertNotNull(post);
+        Assertions.assertFalse(post.getHasImage());
+    }
+
+    @Test
+    public void updatePost() throws ApiException, IOException {
         SubmitPost body = new SubmitPost();
         body.setContent("One!!");
-        body.setGiphyId("Z6f7vzq3iP6Mw");
+        //body.setGiphyId("Z6f7vzq3iP6Mw");
         body.setPostToFollowerFunds(Boolean.FALSE);
+        body.setImage(Base64.getEncoder().encodeToString(getClass().getClassLoader().getResourceAsStream("test.png").readAllBytes()));
         Post post = strategiesApi.createPost(TestData.strategyName, body);
         Assertions.assertNotNull(post);
         String postId = post.getId();
-        body.setContent("Two!!");
-        post = strategiesApi.updatePost(TestData.strategyName, postId, body);
+        UpdatePost updatePost = new UpdatePost();
+        updatePost.setContent("Two!!");
+        post = strategiesApi.updatePost(TestData.strategyName, postId, updatePost);
         Assertions.assertNotNull(post);
         Assertions.assertEquals("Two!!", post.getContent());
     }
