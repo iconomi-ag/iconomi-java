@@ -100,7 +100,7 @@ public class StrategyApiTest {
     @Test
     public void createPost() throws ApiException, IOException {
         SubmitPost body = new SubmitPost();
-        body.setContent("Hello, world!");
+        body.setContent("<p>Hello, world!</p><p><strong>bold text!</strong></p><p><em>Italic text</em></p><p><u>underlined text!</u></p>");
         //body.setGiphyId("Z6f7vzq3iP6Mw");
         body.setPostToFollowerFunds(Boolean.FALSE);
         body.setImage(Base64.getEncoder().encodeToString(getClass().getClassLoader().getResourceAsStream("test.png").readAllBytes()));
